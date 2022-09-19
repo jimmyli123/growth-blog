@@ -1,7 +1,8 @@
 <h6>Dashboard</h6>
 <h3>Welcome {{name}}</h3>
-<p>Here are your stories</p>
-{{#if stories}}
+
+{{#if lessons}}
+<p>Here are your lessons</p>
 <table class="striped">
     <thead>
         <tr>
@@ -12,19 +13,20 @@
         </tr>
     </thead>
     <tbody>
-        {{#each stories}}
+        {{#each lessons}}
         <tr>
-            <td><a href="/stories/{{_id}}">{{title}}</a></td>
+            <td><a href="/lessons/{{_id}}">{{title}}</a></td>
             {{!-- formatDate called in app.js --}}
             <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td> 
             <td><span class="dash-status">{{status}}</span></td>
             <td>
-                <a href="/stories/edit/{{_id}}" class="btn btn-float">
+                <a href="/lessons/edit/{{_id}}" class="btn btn-float">
                 <i class="fas fa-edit"></i></a>
-                <form action="/stories/{{_id}}?_method=DELETE" method="POST" id="delete-form" >
-                <button type="submit" class="btn red">
-                    <i class="fas fa-trash"></i>
-                </button>
+                
+                <form action="/lessons/{{_id}}?_method=DELETE" method="POST" id="delete-form" >
+                    <button type="submit" class="btn red">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </form>
             </td>
         </tr>
@@ -32,6 +34,6 @@
     </tbody>
 </table>
 {{ else}}
-    <p>You have not created any stories</p>
+    <p>You have not created any lessons</p>
 {{/if}}
 

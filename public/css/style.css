@@ -3,5 +3,27 @@ img {
 }
 
 .img-small {
-    width: 155px;
+    width: 130px;
 }
+
+p {
+    margin: 10px 0 !important;
+}
+
+.login-container { 
+    font-size: 16px !important;
+}
+
+.fa-small { 
+    font-size: 16px !important;
+}
+
+.btn-float { 
+   float: left;
+   margin-right: 10px; 
+}
+
+#delete-form { 
+    display: flex;
+}
+

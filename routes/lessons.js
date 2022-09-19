@@ -8,6 +8,23 @@ const { cloudinary_js_config } = require('../middleware/cloudinary')
 
 const Lesson = require('../models/Lesson')
 
+// @desc    Show all lessons
+// @route   GET /lessons
+router.get('/', ensureAuth, async (req,res) => {
+    
+    try {
+        const lessons = await Lesson.find({ status: 'public'})
+        .populate('user')
+        .sort({ createdAt: 'desc'})
+        .lean()
+        res.render('lessons/publicLessons', {lessons})
+    } catch (error) {
+        console.log(error)
+        res.render('error/500')
+    }
+})
+
+
 // @desc    Show add page
 // @route   GET /stories/add
 router.get('/add', ensureAuth, (req, res) => {
@@ -20,41 +37,22 @@ router.get('/add', ensureAuth, (req, res) => {
 router.post('/', ensureAuth, upload.single("file"), async (req, res) => {
     try{
         const imageResult = await cloudinary.uploader.upload(req.file.path);
-        console.log(req.body)
-        // req.body.user = req.user.id
-        // await Lesson.create(req.body)
-        await Lesson.create({
-            title: req.body.title,
-            lesson: req.body.body,
-            user: req.user.id,
-            cloudinaryId: imageResult.public_id,
-            image: imageResult.secure_url,
-            status: req.body.status
-        })
-        res.redirect('/feed')
-    } catch(err) { 
+            await Lesson.create({
+                title: req.body.title,
+                lesson: req.body.body,
+                user: req.user.id,
+                cloudinaryId: imageResult.public_id,
+                image: imageResult.secure_url,
+                status: req.body.status
+            })
+            res.redirect('/dashboard')
+        }
+    catch(err) { 
         console.log(err)
         res.render('error/401')
     }
 })
 
-// @desc    Show all stories
-// @route   GET /stories
-router.get('/', ensureAuth, async (req, res) => {
-    try {
-        const lessons = await Lesson.find({ status: 'public'})
-        .populate('user')
-        .sort({createdAt: 'desc'})
-        .lean()
-
-        res.render('lessons/index', {
-            lessons,
-        })
-    } catch(err) { 
-        console.log(err)
-        res.render('error/500')
-    }
-})
 
 // @desc    Show single story
 // @route   GET /stories/:id
@@ -67,7 +65,7 @@ router.get('/:id', ensureAuth, async (req, res) => {
         if (!lesson) {
             return res.render('error/404')
         }
-        res.render('lessons/show', {
+        res.render('lessons/showOneLesson', {
             lesson,
         })
 
@@ -107,14 +105,14 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
 // @route   PUT /stories/:id
 router.put('/:id', ensureAuth, async (req, res) => {
     try {
-        let story = await Story.findById(req.params.id).lean()
-    if (!story) {
+        let lesson = await Lesson.findById(req.params.id).lean()
+    if (!lesson) {
         return res.render('error/404')
     }
-    if (story.user != req.user.id) {
-        res.redirect('/stories')
+    if (lesson.user != req.user.id) {
+        res.redirect('/lessons')
     } else {
-        story = await Story.findOneAndUpdate({_id: req.params.id}, req.body, {
+        lesson = await Lesson.findOneAndUpdate({_id: req.params.id}, req.body, {
             new: true,
             runValidators: true
         })
@@ -130,7 +128,7 @@ router.put('/:id', ensureAuth, async (req, res) => {
 // @route   DELETE /stories/:id
 router.delete('/:id', ensureAuth, async (req, res) => {
     try {
-        await Story.remove({_id: req.params.id })
+        await Lesson.remove({_id: req.params.id })
         res.redirect('/dashboard')
     } catch (error) {
         console.log(error)
@@ -142,7 +140,6 @@ router.delete('/:id', ensureAuth, async (req, res) => {
 // @route   GET /stories/user/:id
 router.get('/user/:id', ensureAuth, async (req, res) => {
     try {
-        
         const lessons = await Lesson.find({
             user: req.params.id,
             status: 'public'

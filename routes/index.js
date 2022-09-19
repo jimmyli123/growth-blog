@@ -13,18 +13,20 @@ router.get('/', ensureGuest, (req, res) => {
     })
 })
 
-// @desc Feed
-// @route GET /feed
+// @desc dashboard
+// @route GET /dashboard
 
-router.get('/feed', ensureAuth, async (req, res) => {
+router.get('/dashboard', ensureAuth, async (req, res) => {
     try {
-        const lessons = await Lesson.find().sort({ createdAt: "desc"}).lean()
-        res.render("feed.hbs", {
+        console.log('This is dashboard')
+        const lessons = await Lesson.find({user: req.user.id}).lean()
+        res.render("dashboard", {
             lessons,
+            name: req.user.firstName
         })
     } catch (error) {
         console.log(err)
-        res.render('error/404')
+        res.render('error/500')
     }
 })
 

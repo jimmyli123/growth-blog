@@ -9,7 +9,7 @@ const LessonSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    lesson: {
+    body: {
         type: String,
         require: true
     },
@@ -23,7 +23,7 @@ const LessonSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        require: true,
+        require: false,
       },
     status: {
         type: String,
