@@ -70,8 +70,8 @@ app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
 app.use('/lessons', require('./routes/lessons'))
 
-// const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 
-app.listen(process.env.PORT, 
+app.listen(PORT, 
     console.log(`Server running on ${process.env.NODE_ENV} mode on port ${process.env.PORT}`)
 )
