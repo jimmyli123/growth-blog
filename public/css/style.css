@@ -1,3 +1,8 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+
 img {
     width: 400px;
 }
@@ -7,15 +12,15 @@ img {
 }
 
 p {
-    margin: 10px 0 !important;
+    margin: 10px 0 ;
 }
 
 .login-container { 
-    font-size: 16px !important;
+    font-size: 16px;
 }
 
 .fa-small { 
-    font-size: 16px !important;
+    font-size: 16px;
 }
 
 .btn-float { 
@@ -23,7 +28,60 @@ p {
    margin-right: 10px; 
 }
 
+/* Side Navigation Bar */
+
+.sidenav { 
+    padding-top: 15px;
+}
+
+/* Content css */
+
+#intro {
+    font-size: 35px ;
+}
+
 #delete-form { 
     display: flex;
 }
 
+
+.card-content { 
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.login-section { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.login-body { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    align-self: center;
+}
+
+.login body > img {
+    width: 50%;
+}
+
+.created-by{
+    display: flex;
+    justify-content: center;
+    position:fixed;
+    bottom: 0;
+    margin-bottom: 15px;
+}
+
+/* Page titles */
+
+#public-lessons {
+    font-size: 3rem;
+    padding-bottom: 10px;
+}

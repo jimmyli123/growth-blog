@@ -13,6 +13,7 @@ const methodOverride = require('method-override')
 
 // Load config
 dotenv.config({ path: './config/config.env'})
+// dotenv.config()
 
 // Passport config
 require('./config/passport')(passport)
